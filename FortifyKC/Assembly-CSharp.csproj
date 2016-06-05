@@ -49,6 +49,7 @@
      <Compile Include="Assets\Scripts\CanvasSetup.cs" />
      <Compile Include="Assets\Scripts\MapRenderer.cs" />
      <Compile Include="Assets\Scripts\NextLevelButton.cs" />
+     <Compile Include="Assets\Scripts\button.cs" />
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>

@@ -3,19 +3,25 @@ using UnityEngine.UI;
 using System.Collections;
 
 public class MapRenderer : MonoBehaviour {
+	public float working;
 
 	// Use this for initialization
 	IEnumerator Start () {
-		SetTexture ();
+		working = 0;
 
 		// Check to start location services
-		if(!Input.location.isEnabledByUser)
+		if (!Input.location.isEnabledByUser) {
+			working += 1;
 			yield break;
+		}
 
+		Debug.Log ("SUCK IT");
 		Input.location.Start(1f, 1f);
 
 		// Wait for Location Services initialization
-		waitLocInit(20);
+		waitLocInit(2);
+		SetTexture ();
+		working += 2;
 	}
 
 	// Update is called once per frame
@@ -38,16 +44,15 @@ public class MapRenderer : MonoBehaviour {
 		if(maxTime < 1)
 		{
 			print("Location Services initialization timed out.");
-			yield break;
 		} 
 
 		// Connection has failed
 		if (Input.location.status == LocationServiceStatus.Failed)
 		{
-			print("Unable to determine device location");
+			Debug.Log ("Cannot get location info");
 			yield break;
 		} else {
-			print(	"TEST: " + Input.location.lastData.latitude + " " +
+			Debug.Log(	"TEST: " + Input.location.lastData.latitude + " " +
 				Input.location.lastData.longitude + " " +
 				Input.location.lastData.altitude + " " +
 				Input.location.lastData.horizontalAccuracy + " " +
@@ -57,19 +62,16 @@ public class MapRenderer : MonoBehaviour {
 	}
 
 	void OnGUI(){
-		GUILayout.Label ("Test: " + Input.location.lastData.latitude);
+		GUILayout.Label ("" + working);
+		if(working == 2){
+			GUILayout.Label (CreateURL());
+		}
 	}
 
 	void SetTexture(){
 		string url = "";
-		float lattitude;
-		float longitude;
 
-		LocationInfo info = new LocationInfo();
-		lattitude = info.latitude;
-		longitude = info.longitude;
-
-		url = CreateURL (info);
+		url = CreateURL ();
 
 		WWW www = new WWW (url);
 
@@ -79,12 +81,14 @@ public class MapRenderer : MonoBehaviour {
 
 		sprtr.sprite = Sprite.Create(www.texture, new Rect(0, 0, www.texture.width, www.texture.height), new Vector2(0.5f, 0.5f));
 
-		Debug.Log ("FUCK THE WIDTH: " + www.texture.width);
+		Debug.Log ("FORGET THE WIDTH: " + www.texture.width);
 	}
 
-	string CreateURL (LocationInfo info){
-		float currentLat = info.latitude;
-		float currentLong = info.longitude;
+	string CreateURL(){
+		LocationInfo info = new LocationInfo();
+
+		float currentLat = Input.location.lastData.latitude;
+		float currentLong = Input.location.lastData.longitude;
 		float zoom = 13;
 		int screenHeight = Screen.height;
 		int screenWidth = Screen.width;
@@ -92,6 +96,7 @@ public class MapRenderer : MonoBehaviour {
 		string finalURL = "http://maps.google.com/maps/api/staticmap?center=" + currentLat + ","
 			+ currentLong + "&zoom=" + zoom + "&size=" + screenWidth + "x" + screenHeight + "&type=hybrid&sensor=true?a.jpg";
 
+		Debug.Log (finalURL);
 
 		return finalURL;
 	}

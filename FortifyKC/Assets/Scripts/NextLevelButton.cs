@@ -8,10 +8,4 @@ public class NextLevelButton : MonoBehaviour {
 	{
 		SceneManager.LoadScene (index);
 	}
-
-	void OnGUI(){
-		if (GUILayout.Button ("GO TO MAP")) {
-			nextLevel (4);
-		}
-	}
 }
