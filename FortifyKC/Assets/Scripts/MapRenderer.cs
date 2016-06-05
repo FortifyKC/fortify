@@ -62,7 +62,7 @@ public class MapRenderer : MonoBehaviour {
 	}
 
 	void OnGUI(){
-		GUILayout.Label ("" + working);
+		GUILayout.Label ("Width: " + Screen.width + " Height: " + Screen.height );
 		if(working == 2){
 			GUILayout.Label (CreateURL());
 		}
@@ -80,6 +80,7 @@ public class MapRenderer : MonoBehaviour {
 		Image sprtr = gameObject.GetComponent<Image>();
 
 		sprtr.sprite = Sprite.Create(www.texture, new Rect(0, 0, www.texture.width, www.texture.height), new Vector2(0.5f, 0.5f));
+		sprtr.rectTransform.sizeDelta = new Vector2 (Screen.width, Screen.width);
 
 		Debug.Log ("FORGET THE WIDTH: " + www.texture.width);
 	}
@@ -89,7 +90,7 @@ public class MapRenderer : MonoBehaviour {
 
 		float currentLat = Input.location.lastData.latitude;
 		float currentLong = Input.location.lastData.longitude;
-		float zoom = 13;
+		float zoom = 16;
 		int screenHeight = Screen.height;
 		int screenWidth = Screen.width;
 
