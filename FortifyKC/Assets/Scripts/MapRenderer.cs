@@ -2,7 +2,7 @@
 using UnityEngine.UI;
 using System.Collections;
 
-public class MapRender : MonoBehaviour {
+public class MapRenderer : MonoBehaviour {
 
 	// Use this for initialization
 	IEnumerator Start () {
@@ -69,7 +69,7 @@ public class MapRender : MonoBehaviour {
 		lattitude = info.latitude;
 		longitude = info.longitude;
 
-		url = "https://maps.googleapis.com/maps/api/staticmap?center=Brooklyn+Bridge,New+York,NY&zoom=13&size=600x300&maptype=roadmap&markers=color:blue%7Clabel:S%7C40.702147,-74.015794&markers=color:green%7Clabel:G%7C40.711614,-74.012318&markers=color:red%7Clabel:C%7C40.718217,-73.998284&key=AIzaSyArgBTD-XC9yLTYyL89qY3BLuTc1XJJ4-8";
+		url = CreateURL (info);
 
 		WWW www = new WWW (url);
 
@@ -81,4 +81,19 @@ public class MapRender : MonoBehaviour {
 
 		Debug.Log ("FUCK THE WIDTH: " + www.texture.width);
 	}
+
+	string CreateURL (LocationInfo info){
+		float currentLat = info.latitude;
+		float currentLong = info.longitude;
+		float zoom = 13;
+		int screenHeight = Screen.height;
+		int screenWidth = Screen.width;
+
+		string finalURL = "http://maps.google.com/maps/api/staticmap?center=" + currentLat + ","
+			+ currentLong + "&zoom=" + zoom + "&size=" + screenWidth + "x" + screenHeight + "&type=hybrid&sensor=true?a.jpg";
+
+
+		return finalURL;
+	}
+
 }
